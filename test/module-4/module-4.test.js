@@ -5,7 +5,7 @@ const proxyquire = require('proxyquire').noCallThru();
 const R = require('ramda');
 const request = require('supertest');
 const rewire = require('rewire');
-const {JSDOM} = require('jsdom');
+const { JSDOM } = require('jsdom');
 const imageProcessor = require('../../api/src/imageProcessor');
 const app = require('../../api/app');
 
@@ -24,9 +24,9 @@ describe('module 4', () => {
         });
 
         await assert.rejects(
-            x('fsaf'),
-            new Error('not on main thread'),
-            'Did you reject the promise if it\'s not on the main thread? Did you pass the correct message?'
+          x('fsaf'),
+          new Error('not on main thread'),
+          'Did you reject the promise if it\'s not on the main thread? Did you pass the correct message?'
         );
       } catch (err) {
         if (err.code === 'ERR_ASSERTION') {
@@ -45,13 +45,13 @@ describe('module 4', () => {
       });
 
       expect(
-          path.resolve(__dirname + '../../../api/src'),
-          'Did you pass `__dirname` to `path.resolve()`?'
+        path.resolve(__dirname + '../../../api/src'),
+        'Did you pass `__dirname` to `path.resolve()`?'
       ).to.equal(R.pathOr(undefined, ['firstCall', 'args', 0], pathStub));
 
       expect(
-          'resizeWorker.js',
-          'Did you pass `\'resizeWorker.js\'` to `path.resolve()`?'
+        'resizeWorker.js',
+        'Did you pass `\'resizeWorker.js\'` to `path.resolve()`?'
       ).to.equal(R.pathOr(undefined, ['firstCall', 'args', 1], pathStub));
     });
 
@@ -64,13 +64,13 @@ describe('module 4', () => {
       });
 
       expect(
-          path.resolve(__dirname + '../../../api/src'),
-          'Did you pass `__dirname` to `path.resolve()`?'
+        path.resolve(__dirname + '../../../api/src'),
+        'Did you pass `__dirname` to `path.resolve()`?'
       ).to.equal(R.pathOr(undefined, ['secondCall', 'args', 0], pathStub));
 
       expect(
-          'monochromeWorker.js',
-          'Did you pass `\'monochromeWorker.js\'` to `path.resolve()`?'
+        'monochromeWorker.js',
+        'Did you pass `\'monochromeWorker.js\'` to `path.resolve()`?'
       ).to.equal(R.pathOr(undefined, ['secondCall', 'args', 1], pathStub));
     });
 
@@ -84,8 +84,8 @@ describe('module 4', () => {
       const expected = uploadPathResolver('kittens.png');
 
       expect(
-          path.resolve(__dirname + '../../../api/uploads/kittens.png'),
-          'Did you return a call to `path.resolve()` with the correct arguments?'
+        path.resolve(__dirname + '../../../api/uploads/kittens.png'),
+        'Did you return a call to `path.resolve()` with the correct arguments?'
       ).to.equal(expected);
     });
 
@@ -109,8 +109,8 @@ describe('module 4', () => {
       }
 
       expect(
-          'moarKittens.png',
-          'Did you pass in the `filename` argument to `uploadPathResolver()`?',
+        'moarKittens.png',
+        'Did you pass in the `filename` argument to `uploadPathResolver()`?',
       ).to.equal(R.pathOr(undefined, ['thirdCall', 'args', 2], pathStub));
     });
 
@@ -135,8 +135,8 @@ describe('module 4', () => {
 
       const pathStubCall = pathStub.getCall(3);
       expect(
-          'resized-moarKittens.png',
-          'Did you concatenate `\'resized-\'` with `filename`?',
+        'resized-moarKittens.png',
+        'Did you concatenate `\'resized-\'` with `filename`?',
       ).to.equal(R.pathOr(undefined, ['args', 2], pathStubCall));
     });
 
@@ -161,8 +161,8 @@ describe('module 4', () => {
 
       const pathStubCall = pathStub.getCall(4);
       expect(
-          'monochrome-moarKittens.png',
-          'Did you concatenate `\'monochrome-\'` with `filename`?',
+        'monochrome-moarKittens.png',
+        'Did you concatenate `\'monochrome-\'` with `filename`?',
       ).to.equal(R.pathOr(undefined, ['args', 2], pathStubCall));
     });
 
@@ -197,8 +197,8 @@ describe('module 4', () => {
 
       const workerStubCall = workerStub.getCall(0);
       expect(
-          expected,
-          'Did you pass `pathToResizeWorker` and the config object to a new instantiation of the `Worker()` class?'
+        expected,
+        'Did you pass `pathToResizeWorker` and the config object to a new instantiation of the `Worker()` class?'
       ).to.eql(R.pathOr(undefined, ['args'], workerStubCall));
     });
 
@@ -228,8 +228,8 @@ describe('module 4', () => {
 
       const workerStubCall = workerStub.getCall(1);
       expect(
-          expected,
-          'Did you pass `pathToMonochromeWorker` and the config object to a new instantiation of the `Worker()` class?'
+        expected,
+        'Did you pass `pathToMonochromeWorker` and the config object to a new instantiation of the `Worker()` class?'
       ).to.eql(R.pathOr(undefined, ['args'], workerStubCall));
     });
 
@@ -247,8 +247,8 @@ describe('module 4', () => {
       }
 
       return expect(
-          result,
-          'Did you register an `on(\'message\')` event listener for the resizeWorker that resolves the promise?'
+        result,
+        'Did you register an `on(\'message\')` event listener for the resizeWorker that resolves the promise?'
       ).to.equal('resizeWorker finished processing');
     });
 
@@ -263,8 +263,8 @@ describe('module 4', () => {
       } catch (err) {
         errorThrown = true;
         expect(
-            'Error from worker thread',
-            'Did you register an `on(\'error\')` event listener for the resizeWorker that rejects the promise?'
+          'Error from worker thread',
+          'Did you register an `on(\'error\')` event listener for the resizeWorker that rejects the promise?'
         ).to.eql(err.message);
       } finally {
         if (!errorThrown) {
@@ -293,8 +293,8 @@ describe('module 4', () => {
       } catch (err) {
         errorThrown = true;
         expect(
-            'Exited with status code 1',
-            'Did you register an `on(\'exit\')` event listener for the resizeWorker that rejects the promise?'
+          'Exited with status code 1',
+          'Did you register an `on(\'exit\')` event listener for the resizeWorker that rejects the promise?'
         ).to.eql(err.message);
       } finally {
         if (!errorThrown) {
@@ -316,8 +316,8 @@ describe('module 4', () => {
       }
 
       return expect(
-          result,
-          'Did you register an `on(\'message\')` event listener for the monochromeWorker that resolves the promise?'
+        result,
+        'Did you register an `on(\'message\')` event listener for the monochromeWorker that resolves the promise?'
       ).to.equal('monochromeWorker finished processing');
     });
 
@@ -332,8 +332,8 @@ describe('module 4', () => {
       } catch (err) {
         errorThrown = true;
         expect(
-            'Error from worker thread',
-            'Did you register an `on(\'error\')` event listener for the monochromeWorker that rejects the promise?'
+          'Error from worker thread',
+          'Did you register an `on(\'error\')` event listener for the monochromeWorker that rejects the promise?'
         ).to.eql(err.message);
         // do nothing
       } finally {
@@ -362,8 +362,8 @@ describe('module 4', () => {
       } catch (err) {
         errorThrown = true;
         expect(
-            'Exited with status code 1',
-            'Did you register an `on(\'exit\')` event listener for the monochromeWorker that rejects the promise?'
+          'Exited with status code 1',
+          'Did you register an `on(\'exit\')` event listener for the monochromeWorker that rejects the promise?'
         ).to.eql(err.message);
       } finally {
         if (!errorThrown) {
@@ -381,14 +381,14 @@ describe('module 4', () => {
       let files = fs.readdirSync(directory);
 
       for (const file of files) {
-        fs.unlinkSync(directory +'/' + file);
+        fs.unlinkSync(directory + '/' + file);
       }
 
 
       await request(app)
-          .post('/upload')
-          .attach('photo', path.resolve(__dirname, '../../client/photos/ullr.png'))
-          .expect(201);
+        .post('/upload')
+        .attach('photo', path.resolve(__dirname, '../../client/photos/ullr.png'))
+        .expect(201);
 
       files = fs.readdirSync(directory);
 
@@ -402,10 +402,10 @@ describe('module 4', () => {
     let images;
     beforeEach((done) => {
       JSDOM.fromFile(path.resolve(__dirname, '../../client', 'photo-viewer.html'))
-          .then((dom) => {
-            images = dom.window.document.getElementsByTagName('img');
-            done();
-          });
+        .then((dom) => {
+          images = dom.window.document.getElementsByTagName('img');
+          done();
+        });
     });
 
     afterEach(() => {
@@ -414,15 +414,15 @@ describe('module 4', () => {
 
     it('should add an img tag with an src of monochrome-ullr.png @add-monochrome-image', () => {
       expect(
-          'monochrome-ullr.png',
-          'Did you add an `<img>` with an `src` of `\'monochrome-ullr.png\'` to the photo-viewer?'
+        'monochrome-ullr.png',
+        'Did you add an `<img>` with an `src` of `\'monochrome-ullr.png\'` to the photo-viewer?'
       ).to.equal(R.pathOr(undefined, [1, 'attributes', 'src', 'value'], images));
     });
 
     it('should add an img tag with an src of resized-ullr.png @add-resized-image', () => {
       expect(
-          'resized-ullr.png',
-          'Did you add an `<img>` with an `src` of `\'resized-ullr.png\'` to the photo-viewer?'
+        'resized-ullr.png',
+        'Did you add an `<img>` with an `src` of `\'resized-ullr.png\'` to the photo-viewer?'
       ).to.equal(R.pathOr(undefined, [2, 'attributes', 'src', 'value'], images));
     });
   });

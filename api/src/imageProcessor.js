@@ -15,11 +15,20 @@ const imageProcessor = (filename) => {
   return new Promise((resolve, reject) => {
     if (isMainThread) {
       try {
-        const resizeWorker = new Worker(pathToResizeWorker,
-          {
-            workerData:
-              { source: sourcePath, destination: resizedDestination }
-          });
+        const resizeWorker = new Worker(pathToResizeWorker, {
+          workerData: {
+            source: sourcePath,
+            destination: resizedDestination
+          }
+        });
+
+        const monochromeWorker = new Worker(pathToMonochromeWorker, {
+          workerData: {
+            source: sourcePath,
+            destination: monochromeDestination
+          }
+        });
+
         resizeWorker.on('message', (message) => {
           resizeWorkerFinished = true;
           if (monochromeWorkerFinished) {
@@ -35,11 +44,6 @@ const imageProcessor = (filename) => {
           }
         });
 
-        const monochromeWorker = new Worker(pathToMonochromeWorker,
-          {
-            workerData:
-              { source: sourcePath, destination: monochromeDestination }
-          });
         monochromeWorker.on('message', (message) => {
           monochromeWorkerFinished = true;
           if (resizeWorkerFinished) {
