@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const multer = require('multer');
 const path = require('path');
+const imageProcessor = require('./imageProcessor');
 
 
 const router = Router();
@@ -26,10 +27,15 @@ const fileFilter = (request, file, callback) => {
 
 const upload = multer({ fileFilter: fileFilter, storage: storage });
 
-router.post('/upload', upload.single('photo'), (req, res) => {
-  if (req.fileValidationError !== undefined) {
-    return res.status(400).json({ error: req.fileValidationError });
+router.post('/upload', upload.single('photo'), async (req, res) => {
+  if (req.fileValidationError) {
+    res.status(400).json({ error: req.fileValidationError });
   } else {
+    try {
+      await imageProcessor(req.file.filename);
+    } catch (error) {
+      res.status(500).send('Image processing error');
+    }
     res.status(201).json({ success: true });
   }
 })
